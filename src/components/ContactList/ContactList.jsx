@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import css from './ContactList.module.css';
 
@@ -38,7 +38,8 @@ export const ContactList = (contacts, deleteContact) => {
       <ul>
         {getContacts().map(({ name, number, id }) => (
           <li key={id} className={css.contact}>
-            {name} --- {number}
+            {name}
+            {number}
             <div>
               <button
                 className={css.deleteBtn}
