@@ -1,31 +1,29 @@
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-import ContactForm from 'components/ContactForm/ContactForm';
-import ContactList from 'components/ContactList/ContactList';
+import { ContactForm } from 'components/ContactForm/ContactForm';
+import { ContactList } from 'components/ContactList/ContactList';
 
 import css from './Phonebook.module.css';
 
-class Phonebook extends Component {
-  state = {
-    contacts: [],
-  };
+export const Phonebook = () => {
+  const [contacts, setContacts] = useState([]);
 
-  componentDidUpdate() {
-    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  }
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
-  componentDidMount() {
+  useEffect(() => {
     const localStorageContact = localStorage.getItem('contacts');
     if (localStorageContact) {
-      this.setState({ contacts: JSON.parse(localStorageContact) });
+      setContacts(JSON.parse(localStorageContact));
     }
-  }
+  }, []);
 
-  addContact = newContact => {
-    let existedContact = this.state.contacts.some(
+  const addContact = newContact => {
+    const existedContact = contacts.some(
       contact =>
         contact.name === newContact.name && contact.number === newContact.number
     );
@@ -34,35 +32,25 @@ class Phonebook extends Component {
       return;
     }
     newContact.id = nanoid();
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
-    }));
+    setContacts(prevContacts => [...prevContacts.contacts, newContact]);
   };
 
-  deleteContact = index => {
-    this.setState(prevState => {
-      const updatedContacts = [...prevState.contacts];
-      updatedContacts.splice(index, 1);
-      return { contacts: updatedContacts };
-    });
-  };
-  render() {
-    return (
-      <div>
-        <div className={css.phonebook}>
-          <ContactForm addContact={this.addContact} />
-        </div>
-        <ContactList
-          contacts={this.state.contacts}
-          deleteContact={this.deleteContact}
-        />
-      </div>
+  const deleteContact = id => {
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== id)
     );
-  }
-}
+  };
+
+  return (
+    <div>
+      <div className={css.phonebook}>
+        <ContactForm addContact={addContact} />
+      </div>
+      <ContactList contacts={contacts} deleteContact={deleteContact} />
+    </div>
+  );
+};
 
 Phonebook.propTypes = {
   contacts: PropTypes.array,
 };
-
-export default Phonebook;
