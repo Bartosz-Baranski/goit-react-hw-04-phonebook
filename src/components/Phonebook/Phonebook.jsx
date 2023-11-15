@@ -32,7 +32,7 @@ export const Phonebook = () => {
       return;
     }
     newContact.id = nanoid();
-    setContacts(prevContacts => [...prevContacts.contacts, newContact]);
+    setContacts(prevContacts => [...prevContacts, newContact]);
   };
 
   const deleteContact = id => {

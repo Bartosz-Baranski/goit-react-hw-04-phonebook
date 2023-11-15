@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import css from './ContactList.module.css';
 
-export const ContactList = (contacts, deleteContact) => {
+export const ContactList = ({ contacts, deleteContact }) => {
   const [filter, setFilter] = useState('');
 
   const handleChange = e => {
