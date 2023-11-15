@@ -2,7 +2,7 @@
   "name": "phonebook",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://bartosz-baranski.github.io/goit-react-hw-03-phonebook/",
+  "homepage": "https://bartosz-baranski.github.io/goit-react-hw-04-phonebook/",
   "dependencies": {
     "notiflix": "^3.2.6",
     "react": "^18.1.0",
